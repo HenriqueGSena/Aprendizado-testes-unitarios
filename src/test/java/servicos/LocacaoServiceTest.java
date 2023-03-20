@@ -10,6 +10,9 @@ import org.junit.Test;
 
 import java.util.Date;
 
+import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
+import static org.hamcrest.CoreMatchers.*;
+
 public class LocacaoServiceTest {
 
     @Test
@@ -23,8 +26,9 @@ public class LocacaoServiceTest {
         Locacao locacao = service.alugarFilme(usuario, filme);
 
         // Verificacao
-        Assert.assertEquals(5.0, locacao.getValor(), 0.1);
-        Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()));
-        Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)));
+        Assert.assertThat(locacao.getValor(), is(equalTo(5.0)));
+        Assert.assertThat(locacao.getValor(), is(not(6.0)));
+        Assert.assertThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
+        Assert.assertThat(isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)), is(true));
     }
 }
